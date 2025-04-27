@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: summarizer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: summarizer
+  template:
+    metadata:
+      labels:
+        app: summarizer
+    spec:
+      containers:
+      - name: summarizer
+        image: adeel2k01/summarizer:latest
+        ports:
+        - containerPort: 8001

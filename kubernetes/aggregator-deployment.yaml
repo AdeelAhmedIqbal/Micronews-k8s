@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aggregator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aggregator
+  template:
+    metadata:
+      labels:
+        app: aggregator
+    spec:
+      containers:
+      - name: aggregator
+        image: adeel2k01/aggregator:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: NEWS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: micronews-secrets
+              key: newsapi-key
