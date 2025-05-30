@@ -12,6 +12,7 @@ spec:
       labels:
         app: aggregator
     spec:
+      serviceAccountName: aggregator-sa
       containers:
       - name: aggregator
         image: adeel2k01/aggregator:latest
@@ -23,3 +24,15 @@ spec:
             secretKeyRef:
               name: micronews-secrets
               key: newsapi-key
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: micronews-secrets
+              key: MONGO_URI
+        resources:
+          requests:
+            cpu:    "250m"
+            memory: "128Mi"
+          limits:
+            cpu:    "500m"
+            memory: "256Mi"

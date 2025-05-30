@@ -12,11 +12,21 @@ spec:
       labels:
         app: frontend
     spec:
+      serviceAccountName: frontend-sa
       containers:
       - name: frontend
         image: adeel2k01/frontend:latest
         ports:
         - containerPort: 8002
         env:
-        - name: AGGREGATOR_SERVICE_URL
+        - name: AGG_SERVICE_URL
           value: "http://aggregator-service:8000"
+        - name: SUMM_SERVICE_URL
+          value: "http://summarizer-service:8001"
+        resources:
+          requests:
+            cpu:    "100m"
+            memory: "64Mi"
+          limits:
+            cpu:    "200m"
+            memory: "128Mi"

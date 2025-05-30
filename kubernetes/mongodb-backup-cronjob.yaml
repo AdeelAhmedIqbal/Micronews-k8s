@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mongodb-daily-backup
+spec:
+  schedule: "0 2 * * *"        # every day at 2 AM
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit:    1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: backup
+            image: mongo:6
+            imagePullPolicy: IfNotPresent
+            command:
+            - sh
+            - -c
+            - |
+              mkdir -p /backup
+              mongodump --uri="$MONGO_URI" \
+                        --archive=/backup/$(date +%F).gz \
+                        --gzip
+            env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: micronews-secrets
+                  key: MONGO_URI
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backup
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: mongodb-backup-pvc

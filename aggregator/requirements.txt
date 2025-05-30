@@ -1,2 +1,6 @@
-Flask
-requests
+ flask
+ requests
+ pymongo
+ newspaper3k
+ lxml
+ lxml_html_clean

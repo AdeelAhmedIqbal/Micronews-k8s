@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% for art in articles %}
+    <div class="card">
+      <h2><a href="{{ art.url }}" target="_blank">{{ art.title }}</a></h2>
+      <p>{{ art.content.split('.')[:2]|join('.') }}.</p>
+      <div class="card-footer">
+        <a class="btn" href="{{ url_for('summarize_article') }}?url={{ art.url }}">Summarize</a>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

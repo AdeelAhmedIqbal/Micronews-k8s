@@ -1,2 +1,4 @@
+flask
 sumy
-Flask
+nltk
+numpy

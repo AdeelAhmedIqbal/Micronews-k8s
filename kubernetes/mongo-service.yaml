@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  labels:
+    app: mongo
+spec:
+  # headless service gives each Pod a stable DNS name
+  clusterIP: None
+  selector:
+    app: mongo
+  ports:
+    - name: mongodb
+      port: 27017
+      targetPort: 27017
